@@ -26,5 +26,5 @@ combustiveis_tipos = (
 )
 
 """Armazena os dados do usuário logado sendo usado pra identificar qual funcionário 
-está logado no sistema e controlar as permissões e funcionalidades disponíveis dependendo do seu cargo."""
+está logado no sistema e controlar as permissões e funcionalidades disponíveis dependendo seu cargo."""
 usuario_logado = None
