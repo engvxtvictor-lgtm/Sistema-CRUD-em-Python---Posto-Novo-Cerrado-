@@ -36,3 +36,12 @@ def cadastrar_cliente(nome, cpf, telefone):
     cpfs_cadastrados.add(cpf)
 
     return True, "Cliente cadastrado com sucesso!"
+def buscar_cliente_por_cpf(cpf):
+   
+
+    for cliente in clientes:
+
+        if cliente["cpf"] == cpf:
+            return cliente
+
+    return None
