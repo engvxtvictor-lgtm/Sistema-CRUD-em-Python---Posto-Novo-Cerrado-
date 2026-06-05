@@ -1,4 +1,8 @@
-from dados import clientes, cpfs_cadastrados
+from dados import (
+    clientes,
+    funcionarios,
+    cpfs_cadastrados
+)
 from utils import (
     gerar_id,
     validar_cpf,
@@ -91,3 +95,39 @@ def excluir_cliente(cpf):
     cpfs_cadastrados.discard(cpf)
 
     return True, "Cliente excluído com sucesso!"
+def cadastrar_funcionario(
+    nome,
+    cpf,
+    telefone,
+    cargo,
+    data_admissao
+):
+    """
+    Cadastra um funcionário no sistema.
+    """
+
+    if not validar_vazio(nome):
+        return False, "Nome inválido."
+
+    if not validar_cpf(cpf):
+        return False, "CPF inválido."
+
+    if cpf_ja_existe(cpf):
+        return False, "CPF já cadastrado."
+
+    if not validar_telefone(telefone):
+        return False, "Telefone inválido."
+
+    novo_funcionario = {
+        "id": gerar_id(funcionarios),
+        "nome": nome,
+        "cpf": cpf,
+        "telefone": telefone,
+        "cargo": cargo,
+        "data_admissao": data_admissao
+    }
+
+    funcionarios.append(novo_funcionario)
+    cpfs_cadastrados.add(cpf)
+
+    return True, "Funcionário cadastrado com sucesso!"
