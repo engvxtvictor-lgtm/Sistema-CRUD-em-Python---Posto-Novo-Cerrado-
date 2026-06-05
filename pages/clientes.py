@@ -8,7 +8,7 @@ from crud import (
 from dados import clientes
 
 # Título da página
-st.title("👥 Gerenciamento de Clientes")
+st.title("Clientes")
 
 # Criação das abas
 aba_cadastro, aba_listagem, aba_busca, aba_atualizacao, aba_exclusao = st.tabs(

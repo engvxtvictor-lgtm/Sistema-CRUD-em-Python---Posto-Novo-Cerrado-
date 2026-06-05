@@ -9,7 +9,7 @@ from crud import (
 
 from dados import funcionarios
 
-st.title("👨‍💼 Gerenciamento de Funcionários")
+st.title("Funcionários")
 
 aba_cadastro, aba_listagem, aba_busca, aba_atualizacao, aba_exclusao = st.tabs(
     [
