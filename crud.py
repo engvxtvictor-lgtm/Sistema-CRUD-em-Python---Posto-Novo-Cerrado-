@@ -45,3 +45,34 @@ def buscar_cliente_por_cpf(cpf):
             return cliente
 
     return None
+def atualizar_cliente(cpf_antigo, novo_nome, novo_cpf, novo_telefone):
+    """
+    Atualiza os dados de um cliente.
+    """
+
+    cliente = buscar_cliente_por_cpf(cpf_antigo)
+
+    if not cliente:
+        return False, "Cliente não encontrado."
+
+    if not validar_vazio(novo_nome):
+        return False, "Nome inválido."
+
+    if not validar_cpf(novo_cpf):
+        return False, "CPF inválido."
+
+    if not validar_telefone(novo_telefone):
+        return False, "Telefone inválido."
+
+    if novo_cpf != cpf_antigo and cpf_ja_existe(novo_cpf):
+        return False, "Novo CPF já cadastrado."
+
+    cpfs_cadastrados.discard(cliente["cpf"])
+
+    cliente["nome"] = novo_nome
+    cliente["cpf"] = novo_cpf
+    cliente["telefone"] = novo_telefone
+
+    cpfs_cadastrados.add(novo_cpf)
+
+    return True, "Cliente atualizado com sucesso!"
