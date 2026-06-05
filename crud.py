@@ -3,6 +3,7 @@ from dados import (
     funcionarios,
     cpfs_cadastrados
 )
+
 from utils import (
     gerar_id,
     validar_cpf,
@@ -10,24 +11,21 @@ from utils import (
     validar_vazio,
     cpf_ja_existe
 )
-
+# CLIENTES
 
 def cadastrar_cliente(nome, cpf, telefone):
-    """
-    Cadastra um novo cliente no sistema.
-    """
 
     if not validar_vazio(nome):
         return False, "O nome não pode estar vazio."
 
     if not validar_cpf(cpf):
-        return False, "CPF inválido. Deve conter exatamente 11 dígitos."
+        return False, "CPF inválido."
 
     if cpf_ja_existe(cpf):
         return False, "CPF já cadastrado."
 
     if not validar_telefone(telefone):
-        return False, "Telefone inválido. Deve conter DDD + 9 dígitos."
+        return False, "Telefone inválido."
 
     novo_cliente = {
         "id": gerar_id(clientes),
@@ -40,8 +38,9 @@ def cadastrar_cliente(nome, cpf, telefone):
     cpfs_cadastrados.add(cpf)
 
     return True, "Cliente cadastrado com sucesso!"
+
+
 def buscar_cliente_por_cpf(cpf):
-   
 
     for cliente in clientes:
 
@@ -49,10 +48,14 @@ def buscar_cliente_por_cpf(cpf):
             return cliente
 
     return None
-def atualizar_cliente(cpf_antigo, novo_nome, novo_cpf, novo_telefone):
-    """
-    Atualiza os dados de um cliente.
-    """
+
+
+def atualizar_cliente(
+    cpf_antigo,
+    novo_nome,
+    novo_cpf,
+    novo_telefone
+):
 
     cliente = buscar_cliente_por_cpf(cpf_antigo)
 
@@ -69,7 +72,7 @@ def atualizar_cliente(cpf_antigo, novo_nome, novo_cpf, novo_telefone):
         return False, "Telefone inválido."
 
     if novo_cpf != cpf_antigo and cpf_ja_existe(novo_cpf):
-        return False, "Novo CPF já cadastrado."
+        return False, "CPF já cadastrado."
 
     cpfs_cadastrados.discard(cliente["cpf"])
 
@@ -80,10 +83,9 @@ def atualizar_cliente(cpf_antigo, novo_nome, novo_cpf, novo_telefone):
     cpfs_cadastrados.add(novo_cpf)
 
     return True, "Cliente atualizado com sucesso!"
+
+
 def excluir_cliente(cpf):
-    """
-    Exclui um cliente pelo CPF.
-    """
 
     cliente = buscar_cliente_por_cpf(cpf)
 
@@ -95,6 +97,9 @@ def excluir_cliente(cpf):
     cpfs_cadastrados.discard(cpf)
 
     return True, "Cliente excluído com sucesso!"
+
+# FUNCIONÁRIOS
+
 def cadastrar_funcionario(
     nome,
     cpf,
@@ -102,9 +107,6 @@ def cadastrar_funcionario(
     cargo,
     data_admissao
 ):
-    """
-    Cadastra um funcionário no sistema.
-    """
 
     if not validar_vazio(nome):
         return False, "Nome inválido."
@@ -128,6 +130,70 @@ def cadastrar_funcionario(
     }
 
     funcionarios.append(novo_funcionario)
+
     cpfs_cadastrados.add(cpf)
 
     return True, "Funcionário cadastrado com sucesso!"
+
+
+def buscar_funcionario_por_cpf(cpf):
+
+    for funcionario in funcionarios:
+
+        if funcionario["cpf"] == cpf:
+            return funcionario
+
+    return None
+
+
+def atualizar_funcionario(
+    cpf_antigo,
+    novo_nome,
+    novo_cpf,
+    novo_telefone,
+    novo_cargo,
+    nova_data_admissao
+):
+
+    funcionario = buscar_funcionario_por_cpf(cpf_antigo)
+
+    if not funcionario:
+        return False, "Funcionário não encontrado."
+
+    if not validar_vazio(novo_nome):
+        return False, "Nome inválido."
+
+    if not validar_cpf(novo_cpf):
+        return False, "CPF inválido."
+
+    if not validar_telefone(novo_telefone):
+        return False, "Telefone inválido."
+
+    if novo_cpf != cpf_antigo and cpf_ja_existe(novo_cpf):
+        return False, "CPF já cadastrado."
+
+    cpfs_cadastrados.discard(funcionario["cpf"])
+
+    funcionario["nome"] = novo_nome
+    funcionario["cpf"] = novo_cpf
+    funcionario["telefone"] = novo_telefone
+    funcionario["cargo"] = novo_cargo
+    funcionario["data_admissao"] = nova_data_admissao
+
+    cpfs_cadastrados.add(novo_cpf)
+
+    return True, "Funcionário atualizado com sucesso!"
+
+
+def excluir_funcionario(cpf):
+
+    funcionario = buscar_funcionario_por_cpf(cpf)
+
+    if not funcionario:
+        return False, "Funcionário não encontrado."
+
+    funcionarios.remove(funcionario)
+
+    cpfs_cadastrados.discard(cpf)
+
+    return True, "Funcionário excluído com sucesso!"
