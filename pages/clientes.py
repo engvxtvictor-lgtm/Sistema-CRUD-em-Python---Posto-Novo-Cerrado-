@@ -2,7 +2,8 @@ import streamlit as st
 from crud import (
     cadastrar_cliente,
     buscar_cliente_por_cpf,
-    atualizar_cliente
+    atualizar_cliente,
+    excluir_cliente
 )
 from dados import clientes
 
@@ -126,5 +127,30 @@ with aba_atualizacao:
 
 # Aba de exclusão de clientes
 with aba_exclusao:
+
     st.subheader("Excluir Cliente")
+
+    cpf_exclusao = st.text_input(
+        "CPF do cliente",
+        key="cpf_exclusao"
+    )
+
+    confirmar = st.checkbox(
+        "Confirmo que desejo excluir este cliente"
+    )
+
+    if st.button("Excluir Cliente"):
+
+        if not confirmar:
+            st.warning("Marque a confirmação para excluir.")
+        else:
+
+            sucesso, mensagem = excluir_cliente(
+                cpf_exclusao
+            )
+
+            if sucesso:
+                st.success(mensagem)
+            else:
+                st.error(mensagem)
     
