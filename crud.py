@@ -197,3 +197,60 @@ def excluir_funcionario(cpf):
     cpfs_cadastrados.discard(cpf)
 
     return True, "Funcionário excluído com sucesso!"
+def cadastrar_combustivel(
+    nome,
+    preco_litro,
+    fornecedor,
+    estoque,
+    ultimo_abastecimento,
+    quantidade_ultimo_abastecimento
+):
+
+    try:
+        preco_litro = float(preco_litro)
+        estoque = float(estoque)
+        quantidade_ultimo_abastecimento = float(
+            quantidade_ultimo_abastecimento
+        )
+
+    except ValueError:
+        return False, "Valores numéricos inválidos."
+
+    novo_combustivel = {
+        "id": gerar_id(combustiveis),
+        "nome": nome,
+        "preco_litro": preco_litro,
+        "fornecedor": fornecedor,
+        "estoque": estoque,
+        "ultimo_abastecimento": ultimo_abastecimento,
+        "quantidade_ultimo_abastecimento":
+            quantidade_ultimo_abastecimento
+    }
+
+    combustiveis.append(
+        novo_combustivel
+    )
+
+    return True, "Combustível cadastrado com sucesso."
+
+
+def buscar_combustivel(nome):
+
+    for combustivel in combustiveis:
+
+        if combustivel["nome"] == nome:
+            return combustivel
+
+    return None
+
+
+def excluir_combustivel(nome):
+
+    combustivel = buscar_combustivel(nome)
+
+    if not combustivel:
+        return False, "Combustível não encontrado."
+
+    combustiveis.remove(combustivel)
+
+    return True, "Combustível removido com sucesso."
