@@ -1,5 +1,6 @@
 import streamlit as st
 from crud import cadastrar_cliente
+
 # Título da página
 st.title("👥 Gerenciamento de Clientes")
 
@@ -14,7 +15,9 @@ aba_cadastro, aba_listagem, aba_busca, aba_atualizacao, aba_exclusao = st.tabs(
     ]
 )
 
-# Conteúdo temporário de cada aba
+# ==========================
+# ABA CADASTRO
+# ==========================
 with aba_cadastro:
 
     st.subheader("Cadastrar Cliente")
@@ -40,14 +43,26 @@ with aba_cadastro:
             else:
                 st.error(mensagem)
 
+# ==========================
+# ABA LISTAGEM
+# ==========================
 with aba_listagem:
     st.subheader("Listar Clientes")
 
+# ==========================
+# ABA BUSCA
+# ==========================
 with aba_busca:
     st.subheader("Buscar Cliente")
 
+# ==========================
+# ABA ATUALIZAÇÃO
+# ==========================
 with aba_atualizacao:
     st.subheader("Atualizar Cliente")
 
+# ==========================
+# ABA EXCLUSÃO
+# ==========================
 with aba_exclusao:
     st.subheader("Excluir Cliente")
