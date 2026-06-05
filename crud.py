@@ -1,6 +1,9 @@
 from dados import (
     clientes,
     funcionarios,
+    combustiveis,
+    bombas,
+    vendas,
     cpfs_cadastrados
 )
 
