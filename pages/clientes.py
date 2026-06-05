@@ -1,5 +1,9 @@
 import streamlit as st
-from crud import cadastrar_cliente, buscar_cliente_por_cpf
+from crud import (
+    cadastrar_cliente,
+    buscar_cliente_por_cpf,
+    atualizar_cliente
+)
 from dados import clientes
 
 # Título da página
@@ -83,8 +87,44 @@ with aba_busca:
 # Aba de atualização de clientes
 
 with aba_atualizacao:
+
     st.subheader("Atualizar Cliente")
+
+    cpf_atual = st.text_input(
+        "CPF do cliente",
+        key="cpf_atualizacao"
+    )
+
+    novo_nome = st.text_input(
+        "Novo nome",
+        key="novo_nome"
+    )
+
+    novo_cpf = st.text_input(
+        "Novo CPF",
+        key="novo_cpf"
+    )
+
+    novo_telefone = st.text_input(
+        "Novo telefone",
+        key="novo_telefone"
+    )
+
+    if st.button("Atualizar Cliente"):
+
+        sucesso, mensagem = atualizar_cliente(
+            cpf_atual,
+            novo_nome,
+            novo_cpf,
+            novo_telefone
+        )
+
+        if sucesso:
+            st.success(mensagem)
+        else:
+            st.error(mensagem)
 
 # Aba de exclusão de clientes
 with aba_exclusao:
     st.subheader("Excluir Cliente")
+    
