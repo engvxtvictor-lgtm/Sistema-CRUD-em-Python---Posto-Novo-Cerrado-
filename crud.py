@@ -76,3 +76,18 @@ def atualizar_cliente(cpf_antigo, novo_nome, novo_cpf, novo_telefone):
     cpfs_cadastrados.add(novo_cpf)
 
     return True, "Cliente atualizado com sucesso!"
+def excluir_cliente(cpf):
+    """
+    Exclui um cliente pelo CPF.
+    """
+
+    cliente = buscar_cliente_por_cpf(cpf)
+
+    if not cliente:
+        return False, "Cliente não encontrado."
+
+    clientes.remove(cliente)
+
+    cpfs_cadastrados.discard(cpf)
+
+    return True, "Cliente excluído com sucesso!"
