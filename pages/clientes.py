@@ -1,5 +1,5 @@
 import streamlit as st
-from crud import cadastrar_cliente
+from crud import cadastrar_cliente, buscar_cliente_por_cpf
 from dados import clientes
 
 # Título da página
@@ -56,7 +56,29 @@ with aba_listagem:
 
 # Aba de busca de clientes
 with aba_busca:
-    st.subheader("Buscar Cliente")
+
+    st.subheader("Buscar Cliente por CPF")
+
+    cpf_busca = st.text_input(
+        "Digite o CPF do cliente",
+        key="cpf_busca"
+    )
+
+    if st.button("Buscar Cliente"):
+
+        cliente = buscar_cliente_por_cpf(cpf_busca)
+
+        if cliente:
+
+            st.success("Cliente encontrado!")
+
+            st.write(f"ID: {cliente['id']}")
+            st.write(f"Nome: {cliente['nome']}")
+            st.write(f"CPF: {cliente['cpf']}")
+            st.write(f"Telefone: {cliente['telefone']}")
+
+        else:
+            st.error("Cliente não encontrado.")
 
 # Aba de atualização de clientes
 
