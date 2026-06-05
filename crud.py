@@ -1,11 +1,4 @@
-from dados import (
-    clientes,
-    funcionarios,
-    combustiveis,
-    bombas,
-    vendas,
-    cpfs_cadastrados
-)
+from dados import clientes, funcionarios, combustiveis, cpfs_cadastrados
 
 from utils import (
     gerar_id,
@@ -14,9 +7,9 @@ from utils import (
     validar_vazio,
     cpf_ja_existe
 )
-# CLIENTES
 
 def cadastrar_cliente(nome, cpf, telefone):
+    #Cadastra um cliente
 
     if not validar_vazio(nome):
         return False, "O nome não pode estar vazio."
@@ -44,21 +37,17 @@ def cadastrar_cliente(nome, cpf, telefone):
 
 
 def buscar_cliente_por_cpf(cpf):
+    #Busca cliente pelo CPF
 
     for cliente in clientes:
-
         if cliente["cpf"] == cpf:
             return cliente
 
     return None
 
 
-def atualizar_cliente(
-    cpf_antigo,
-    novo_nome,
-    novo_cpf,
-    novo_telefone
-):
+def atualizar_cliente(cpf_antigo, novo_nome, novo_cpf, novo_telefone):
+    #Atualiza os dados de um cliente
 
     cliente = buscar_cliente_por_cpf(cpf_antigo)
 
@@ -79,7 +68,7 @@ def atualizar_cliente(
 
     cpfs_cadastrados.discard(cliente["cpf"])
 
-    cliente["nome"] = novo_nome
+    cliente["nome"] = novo_nome.strip()
     cliente["cpf"] = novo_cpf
     cliente["telefone"] = novo_telefone
 
@@ -89,6 +78,7 @@ def atualizar_cliente(
 
 
 def excluir_cliente(cpf):
+    #Exclui um cliente pelo CPF
 
     cliente = buscar_cliente_por_cpf(cpf)
 
@@ -96,20 +86,12 @@ def excluir_cliente(cpf):
         return False, "Cliente não encontrado."
 
     clientes.remove(cliente)
-
     cpfs_cadastrados.discard(cpf)
 
     return True, "Cliente excluído com sucesso!"
 
-# FUNCIONÁRIOS
-
-def cadastrar_funcionario(
-    nome,
-    cpf,
-    telefone,
-    cargo,
-    data_admissao
-):
+def cadastrar_funcionario(nome, cpf, telefone, cargo, data_admissao):
+    #Cadastra um funcionário
 
     if not validar_vazio(nome):
         return False, "Nome inválido."
@@ -125,7 +107,7 @@ def cadastrar_funcionario(
 
     novo_funcionario = {
         "id": gerar_id(funcionarios),
-        "nome": nome,
+        "nome": nome.strip(),
         "cpf": cpf,
         "telefone": telefone,
         "cargo": cargo,
@@ -133,16 +115,15 @@ def cadastrar_funcionario(
     }
 
     funcionarios.append(novo_funcionario)
-
     cpfs_cadastrados.add(cpf)
 
     return True, "Funcionário cadastrado com sucesso!"
 
 
 def buscar_funcionario_por_cpf(cpf):
+    #Busca funcionário pelo CPF
 
     for funcionario in funcionarios:
-
         if funcionario["cpf"] == cpf:
             return funcionario
 
@@ -157,6 +138,7 @@ def atualizar_funcionario(
     novo_cargo,
     nova_data_admissao
 ):
+    #Atualiza os dados de um funcionário
 
     funcionario = buscar_funcionario_por_cpf(cpf_antigo)
 
@@ -177,7 +159,7 @@ def atualizar_funcionario(
 
     cpfs_cadastrados.discard(funcionario["cpf"])
 
-    funcionario["nome"] = novo_nome
+    funcionario["nome"] = novo_nome.strip()
     funcionario["cpf"] = novo_cpf
     funcionario["telefone"] = novo_telefone
     funcionario["cargo"] = novo_cargo
@@ -189,6 +171,7 @@ def atualizar_funcionario(
 
 
 def excluir_funcionario(cpf):
+    #Exclui um funcionário pelo CPF.
 
     funcionario = buscar_funcionario_por_cpf(cpf)
 
@@ -196,273 +179,77 @@ def excluir_funcionario(cpf):
         return False, "Funcionário não encontrado."
 
     funcionarios.remove(funcionario)
-
     cpfs_cadastrados.discard(cpf)
 
     return True, "Funcionário excluído com sucesso!"
+def cadastrar_combustivel(nome, preco_litro, fornecedor, estoque):
+    #Cadastra um combustível.
 
+    if not validar_vazio(nome):
+        return False, "Nome inválido."
 
-# COMBUSTÍVEIS
-
-def cadastrar_combustivel(
-    nome,
-    preco_litro,
-    fornecedor,
-    estoque,
-    ultimo_abastecimento,
-    quantidade_ultimo_abastecimento
-):
+    if not validar_vazio(fornecedor):
+        return False, "Fornecedor inválido."
 
     try:
         preco_litro = float(preco_litro)
         estoque = float(estoque)
-        quantidade_ultimo_abastecimento = float(
-            quantidade_ultimo_abastecimento
-        )
-
     except ValueError:
-        return False, "Valores numéricos inválidos."
+        return False, "Preço e estoque devem ser números."
 
     novo_combustivel = {
         "id": gerar_id(combustiveis),
         "nome": nome,
         "preco_litro": preco_litro,
         "fornecedor": fornecedor,
-        "estoque": estoque,
-        "ultimo_abastecimento": ultimo_abastecimento,
-        "quantidade_ultimo_abastecimento":
-            quantidade_ultimo_abastecimento
+        "estoque": estoque
     }
 
-    combustiveis.append(
-        novo_combustivel
-    )
+    combustiveis.append(novo_combustivel)
 
-    return True, "Combustível cadastrado com sucesso."
+    return True, "Combustível cadastrado com sucesso!"
 
 
-def buscar_combustivel(nome):
+def buscar_combustivel_por_nome(nome):
+    #Busca combustível pelo nome.
 
     for combustivel in combustiveis:
-
         if combustivel["nome"] == nome:
             return combustivel
 
     return None
 
 
-def atualizar_combustivel(
-    nome_antigo,
-    novo_nome,
-    novo_preco_litro,
-    novo_fornecedor,
-    novo_estoque,
-    novo_ultimo_abastecimento,
-    nova_quantidade_ultimo_abastecimento
-):
+def atualizar_combustivel(nome_antigo, novo_nome, novo_preco, novo_fornecedor, novo_estoque):
+    #Atualiza um combustível
 
-    combustivel = buscar_combustivel(nome_antigo)
+    combustivel = buscar_combustivel_por_nome(nome_antigo)
 
     if not combustivel:
         return False, "Combustível não encontrado."
 
     try:
-        novo_preco_litro = float(novo_preco_litro)
+        novo_preco = float(novo_preco)
         novo_estoque = float(novo_estoque)
-        nova_quantidade_ultimo_abastecimento = float(
-            nova_quantidade_ultimo_abastecimento
-        )
-
     except ValueError:
-        return False, "Valores numéricos inválidos."
+        return False, "Preço e estoque devem ser números."
 
     combustivel["nome"] = novo_nome
-    combustivel["preco_litro"] = novo_preco_litro
+    combustivel["preco_litro"] = novo_preco
     combustivel["fornecedor"] = novo_fornecedor
     combustivel["estoque"] = novo_estoque
-    combustivel["ultimo_abastecimento"] = novo_ultimo_abastecimento
-    combustivel["quantidade_ultimo_abastecimento"] = (
-        nova_quantidade_ultimo_abastecimento
-    )
 
-    return True, "Combustível atualizado com sucesso."
+    return True, "Combustível atualizado com sucesso!"
 
 
 def excluir_combustivel(nome):
+    #Exclui combustível pelo nome
 
-    combustivel = buscar_combustivel(nome)
+    combustivel = buscar_combustivel_por_nome(nome)
 
     if not combustivel:
         return False, "Combustível não encontrado."
 
     combustiveis.remove(combustivel)
 
-    return True, "Combustível removido com sucesso."
-
-
-# BOMBAS
-
-def cadastrar_bomba(
-    numero,
-    tipo_combustivel,
-    status
-):
-
-    if not validar_vazio(str(numero)):
-        return False, "Número da bomba inválido."
-
-    for bomba in bombas:
-        if bomba["numero"] == numero:
-            return False, "Número de bomba já cadastrado."
-
-    nova_bomba = {
-        "id": gerar_id(bombas),
-        "numero": numero,
-        "tipo_combustivel": tipo_combustivel,
-        "status": status
-    }
-
-    bombas.append(nova_bomba)
-
-    return True, "Bomba cadastrada com sucesso."
-
-
-def buscar_bomba_por_numero(numero):
-
-    for bomba in bombas:
-
-        if bomba["numero"] == numero:
-            return bomba
-
-    return None
-
-
-def atualizar_bomba(
-    numero_antigo,
-    novo_numero,
-    novo_tipo_combustivel,
-    novo_status
-):
-
-    bomba = buscar_bomba_por_numero(numero_antigo)
-
-    if not bomba:
-        return False, "Bomba não encontrada."
-
-    if novo_numero != numero_antigo:
-        for b in bombas:
-            if b["numero"] == novo_numero:
-                return False, "Número de bomba já cadastrado."
-
-    bomba["numero"] = novo_numero
-    bomba["tipo_combustivel"] = novo_tipo_combustivel
-    bomba["status"] = novo_status
-
-    return True, "Bomba atualizada com sucesso."
-
-
-def excluir_bomba(numero):
-
-    bomba = buscar_bomba_por_numero(numero)
-
-    if not bomba:
-        return False, "Bomba não encontrada."
-
-    bombas.remove(bomba)
-
-    return True, "Bomba excluída com sucesso."
-
-
-# VENDAS
-
-def registrar_venda(
-    cpf_cliente,
-    cpf_funcionario,
-    numero_bomba,
-    tipo_combustivel,
-    litros,
-    forma_pagamento,
-    data_venda
-):
-
-    try:
-        litros = float(litros)
-
-    except ValueError:
-        return False, "Quantidade de litros inválida."
-
-    if litros <= 0:
-        return False, "A quantidade de litros deve ser maior que zero."
-
-    combustivel = buscar_combustivel(tipo_combustivel)
-
-    if not combustivel:
-        return False, "Combustível não encontrado."
-
-    if combustivel["estoque"] < litros:
-        return False, "Estoque insuficiente para esta venda."
-
-    valor_total = round(litros * combustivel["preco_litro"], 2)
-
-    nova_venda = {
-        "id": gerar_id(vendas),
-        "cpf_cliente": cpf_cliente,
-        "cpf_funcionario": cpf_funcionario,
-        "numero_bomba": numero_bomba,
-        "tipo_combustivel": tipo_combustivel,
-        "litros": litros,
-        "valor_total": valor_total,
-        "forma_pagamento": forma_pagamento,
-        "data_venda": data_venda
-    }
-
-    vendas.append(nova_venda)
-
-    combustivel["estoque"] = round(
-        combustivel["estoque"] - litros, 2
-    )
-
-    return True, f"Venda registrada com sucesso! Total: R$ {valor_total:.2f}"
-
-
-def listar_vendas_por_data(data_inicio, data_fim):
-
-    resultado = []
-
-    for venda in vendas:
-
-        if data_inicio <= venda["data_venda"] <= data_fim:
-            resultado.append(venda)
-
-    return resultado
-
-
-def calcular_total_vendas():
-
-    total = 0.0
-
-    for venda in vendas:
-        total += venda["valor_total"]
-
-    return round(total, 2)
-
-
-def calcular_total_por_combustivel():
-
-    totais = {}
-
-    for venda in vendas:
-
-        tipo = venda["tipo_combustivel"]
-
-        if tipo not in totais:
-            totais[tipo] = {"litros": 0.0, "valor": 0.0}
-
-        totais[tipo]["litros"] = round(
-            totais[tipo]["litros"] + venda["litros"], 2
-        )
-        totais[tipo]["valor"] = round(
-            totais[tipo]["valor"] + venda["valor_total"], 2
-        )
-
-    return totais
+    return True, "Combustível excluído com sucesso!"
