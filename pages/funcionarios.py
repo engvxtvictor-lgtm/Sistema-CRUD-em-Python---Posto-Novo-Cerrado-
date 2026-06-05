@@ -1,5 +1,6 @@
 import streamlit as st
 from crud import cadastrar_funcionario
+from dados import funcionarios
 
 st.title("👨‍💼 Gerenciamento de Funcionários")
 
@@ -58,7 +59,13 @@ with aba_cadastro:
                 st.error(mensagem)
 
 with aba_listagem:
-    st.subheader("Listar Funcionários")
+
+    st.subheader("Lista de Funcionários")
+
+    if funcionarios:
+        st.table(funcionarios)
+    else:
+        st.info("Nenhum funcionário cadastrado.")
 
 with aba_busca:
     st.subheader("Buscar Funcionário")
