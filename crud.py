@@ -1,4 +1,4 @@
-from dados import clientes, funcionarios, combustiveis, cpfs_cadastrados
+from dados import clientes, funcionarios, combustiveis, bombas, cpfs_cadastrados
 
 from utils import (
     gerar_id,
@@ -253,3 +253,61 @@ def excluir_combustivel(nome):
     combustiveis.remove(combustivel)
 
     return True, "Combustível excluído com sucesso!"
+def cadastrar_bomba(numero, combustivel, status):
+
+    for bomba in bombas:
+
+        if bomba["numero"] == numero:
+            return False, "Número da bomba já cadastrado."
+
+    nova_bomba = {
+        "id": gerar_id(bombas),
+        "numero": numero,
+        "combustivel": combustivel,
+        "status": status
+    }
+
+    bombas.append(nova_bomba)
+
+    return True, "Bomba cadastrada com sucesso!"
+
+
+def buscar_bomba(numero):
+
+    for bomba in bombas:
+
+        if bomba["numero"] == numero:
+            return bomba
+
+    return None
+
+
+def atualizar_bomba(
+    numero_antigo,
+    novo_numero,
+    novo_combustivel,
+    novo_status
+):
+
+    bomba = buscar_bomba(numero_antigo)
+
+    if not bomba:
+        return False, "Bomba não encontrada."
+
+    bomba["numero"] = novo_numero
+    bomba["combustivel"] = novo_combustivel
+    bomba["status"] = novo_status
+
+    return True, "Bomba atualizada com sucesso!"
+
+
+def excluir_bomba(numero):
+
+    bomba = buscar_bomba(numero)
+
+    if not bomba:
+        return False, "Bomba não encontrada."
+
+    bombas.remove(bomba)
+
+    return True, "Bomba excluída com sucesso!"
