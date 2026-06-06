@@ -8,7 +8,7 @@ st.set_page_config(
     layout="wide"
 )
 
-st.title(" Sistema de Gerenciamento do Posto Novo Cerrado")
+st.write(funcionarios)
 
 if "usuario_logado" not in st.session_state:
     st.session_state.usuario_logado = None
