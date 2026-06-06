@@ -1,9 +1,10 @@
 import streamlit as st
+from utils import verificar_cargo
 
 from dados import clientes, funcionarios, combustiveis, vendas
 
 st.title("Relatórios")
-
+verificar_cargo(st, ["Dono do Posto", "Frentista Gerente"])
 aba_geral, aba_estoque, aba_vendas = st.tabs(
     [
         "Geral",

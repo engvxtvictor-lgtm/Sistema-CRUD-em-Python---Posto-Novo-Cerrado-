@@ -1,5 +1,5 @@
 import streamlit as st
-
+from utils import verificar_cargo
 from crud import registrar_venda
 
 from dados import (
@@ -11,6 +11,10 @@ from dados import (
 )
 
 st.title("Vendas")
+verificar_cargo(
+    st,
+    ["Dono do Posto", "Frentista Gerente", "Frentista"]
+)
 
 aba_registro, aba_listagem = st.tabs(
     [

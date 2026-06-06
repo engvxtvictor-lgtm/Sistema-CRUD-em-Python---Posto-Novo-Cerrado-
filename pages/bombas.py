@@ -1,5 +1,5 @@
 import streamlit as st
-
+from utils import verificar_cargo
 from crud import (
     cadastrar_bomba,
     buscar_bomba,
@@ -9,7 +9,8 @@ from crud import (
 
 from dados import bombas, combustiveis_tipos
 
-st.title("⛽ Bombas")
+st.title(" Bombas")
+verificar_cargo(st, ["Dono do Posto", "Frentista Gerente"])
 
 aba_cadastro, aba_listagem, aba_busca, aba_atualizacao, aba_exclusao = st.tabs(
     [

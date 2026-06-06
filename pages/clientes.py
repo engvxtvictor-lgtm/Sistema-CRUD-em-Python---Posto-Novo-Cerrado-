@@ -1,4 +1,5 @@
 import streamlit as st
+from utils import verificar_cargo
 from crud import (
     cadastrar_cliente,
     buscar_cliente_por_cpf,
@@ -9,7 +10,10 @@ from dados import clientes
 
 # Título da página
 st.title("Clientes")
-
+verificar_cargo(
+    st,
+    ["Dono do Posto", "Frentista Gerente", "Frentista"]
+)
 # Criação das abas
 aba_cadastro, aba_listagem, aba_busca, aba_atualizacao, aba_exclusao = st.tabs(
     [

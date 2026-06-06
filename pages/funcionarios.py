@@ -1,4 +1,5 @@
 import streamlit as st
+from utils import verificar_cargo
 
 from crud import (
     cadastrar_funcionario,
@@ -10,7 +11,10 @@ from crud import (
 from dados import funcionarios
 
 st.title("Funcionários")
-
+verificar_cargo(
+    st,
+    ["Dono do Posto"]
+)
 aba_cadastro, aba_listagem, aba_busca, aba_atualizacao, aba_exclusao = st.tabs(
     [
         "Cadastro",
