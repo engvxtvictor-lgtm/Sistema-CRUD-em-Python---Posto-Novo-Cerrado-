@@ -1,4 +1,4 @@
-from dados import clientes, funcionarios, combustiveis, bombas, cpfs_cadastrados
+from dados import clientes, funcionarios, combustiveis, bombas,vendas, cpfs_cadastrados
 
 from utils import (
     gerar_id,
@@ -311,3 +311,76 @@ def excluir_bomba(numero):
     bombas.remove(bomba)
 
     return True, "Bomba excluída com sucesso!"
+def registrar_venda(
+    cpf_cliente,
+    cpf_funcionario,
+    numero_bomba,
+    combustivel_nome,
+    litros
+):
+
+    cliente = buscar_cliente_por_cpf(
+        cpf_cliente
+    )
+
+    if not cliente:
+        return False, "Cliente não encontrado."
+
+    funcionario = buscar_funcionario_por_cpf(
+        cpf_funcionario
+    )
+
+    if not funcionario:
+        return False, "Funcionário não encontrado."
+
+    bomba = buscar_bomba(
+        numero_bomba
+    )
+
+    if not bomba:
+        return False, "Bomba não encontrada."
+
+    combustivel = buscar_combustivel_por_nome(
+        combustivel_nome
+    )
+
+    if not combustivel:
+        return False, "Combustível não encontrado."
+
+    try:
+        litros = float(litros)
+
+    except ValueError:
+        return False, "Quantidade inválida."
+
+    if litros <= 0:
+        return False, "Quantidade inválida."
+
+    if combustivel["estoque"] < litros:
+        return False, "Estoque insuficiente."
+
+    valor_total = round(
+        litros * combustivel["preco_litro"],
+        2
+    )
+
+    nova_venda = {
+        "id": gerar_id(vendas),
+        "cliente": cpf_cliente,
+        "funcionario": cpf_funcionario,
+        "combustivel": combustivel_nome,
+        "bomba": numero_bomba,
+        "litros": litros,
+        "valor_total": valor_total
+    }
+
+    vendas.append(
+        nova_venda
+    )
+
+    combustivel["estoque"] -= litros
+
+    return True, (
+        f"Venda registrada com sucesso. "
+        f"Total: R$ {valor_total}"
+    )
