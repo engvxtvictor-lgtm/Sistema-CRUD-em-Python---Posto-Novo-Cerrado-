@@ -78,3 +78,26 @@ def verificar_cargo(st, cargos_permitidos):
         st.stop()
 
     return usuario
+def verificar_login(st):
+    #Verifica se existe usuário logado no Streamlit
+
+    if "usuario_logado" not in st.session_state:
+        st.session_state.usuario_logado = None
+
+    if st.session_state.usuario_logado is None:
+        st.warning("Faça login para acessar esta página.")
+        st.stop()
+
+    return st.session_state.usuario_logado
+
+
+def verificar_cargo(st, cargos_permitidos):
+    #Verifica se o usuário possui cargo permitido
+
+    usuario = verificar_login(st)
+
+    if usuario["cargo"] not in cargos_permitidos:
+        st.error("Você não tem permissão para acessar esta página.")
+        st.stop()
+
+    return usuario
