@@ -1,6 +1,6 @@
 import streamlit as st
 
-from dados import funcionarios
+from dados import funcionarios, cpfs_cadastrados
 from crud import buscar_funcionario_por_cpf
 
 st.set_page_config(
@@ -8,7 +8,20 @@ st.set_page_config(
     layout="wide"
 )
 
-st.write(funcionarios)
+if not funcionarios:
+    funcionarios.append(
+        {
+            "id": 1,
+            "nome": "Administrador",
+            "cpf": "00000000000",
+            "telefone": "86999999999",
+            "cargo": "Dono do Posto",
+            "data_admissao": "2026-06-05"
+        }
+    )
+    cpfs_cadastrados.add("00000000000")
+
+st.title("Sistema de Gerenciamento do Posto Novo Cerrado")
 
 if "usuario_logado" not in st.session_state:
     st.session_state.usuario_logado = None

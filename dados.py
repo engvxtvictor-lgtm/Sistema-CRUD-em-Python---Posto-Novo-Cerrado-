@@ -18,9 +18,7 @@ combustiveis = []
 bombas = []
 # Vendas
 vendas = []
-cpfs_cadastrados = {
-    "00000000000"
-}
+cpfs_cadastrados = {"00000000000"}
 cargos = (
     "Frentista",
     "Frentista Gerente",
