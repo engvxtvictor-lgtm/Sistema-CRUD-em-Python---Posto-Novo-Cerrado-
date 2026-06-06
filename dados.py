@@ -1,22 +1,31 @@
-#BD do Posto Cerrado 
-
-#Tables do Systema 
+# Clientes
 clientes = []
-funcionarios = []
+# Funcionário administrador padrão
+funcionarios = [
+    {
+        "id": 1,
+        "nome": "Administrador",
+        "cpf": "00000000000",
+        "telefone": "86999999999",
+        "cargo": "Dono do Posto",
+        "data_admissao": "2026-06-05"
+    }
+]
+# Combustíveis
 combustiveis = []
+
+# Bombas
 bombas = []
+# Vendas
 vendas = []
-
-# Set 
-cpfs_cadastrados = {"00000000000"}
-
-# Tupla 
+cpfs_cadastrados = {
+    "00000000000"
+}
 cargos = (
     "Frentista",
     "Frentista Gerente",
     "Dono do Posto"
 )
-
 combustiveis_tipos = (
     "Gasolina Comum",
     "Gasolina Aditivada",
@@ -24,16 +33,4 @@ combustiveis_tipos = (
     "Diesel",
     "Diesel S10"
 )
-
-"""Armazena os dados do usuário logado sendo usado pra identificar qual funcionário 
-está logado no sistema e controlar as permissões e funcionalidades disponíveis dependendo seu cargo."""
 usuario_logado = None
-
-{
-    "id": 1,
-    "nome": "Administrador",
-    "cpf": "00000000000",
-    "telefone": "86999999999",
-    "cargo": "Dono do Posto",
-    "data_admissao": "2026-06-05"
-}
